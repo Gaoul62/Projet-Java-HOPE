@@ -12,8 +12,8 @@ CREATE TABLE studenttools (
     domainName VARCHAR(50) NOT NULL,
     simpleDesc VARCHAR(50) NOT NULL DEFAULT '?',
     detailedDesc VARCHAR(500) NOT NULL,
-    link VARCHAR(50) NOT NULL,
-    accessInstruction VARCHAR(250) NOT NULL
+    link VARCHAR(250) NOT NULL,
+    accessInstruction VARCHAR(500) NOT NULL
 );
 
 DROP TABLE IF EXISTS userfeedback;
