@@ -1,6 +1,6 @@
 USE db_altn72_hope;
 
-INSERT INTO StudentTools (toolID, title, domainName, detailedDesc, link, accessInstruction)
+INSERT INTO StudentTool (toolID, title, domainName, detailedDesc, link, accessInstruction)
 VALUES
 (1,
  'GitHub Global Campus (GitHub Education)',
