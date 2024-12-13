@@ -13,11 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class StudentToolService {
     @Autowired
     private final StudentToolRepository studentRepository;
-
 
     public StudentToolService(StudentToolRepository studentToolRepository) {
         this.studentRepository = studentToolRepository;
