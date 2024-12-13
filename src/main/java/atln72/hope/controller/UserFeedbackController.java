@@ -20,7 +20,7 @@ import atln72.hope.model.UserFeedbackEntity;
 import atln72.hope.service.UserFeedbackService;
 
 @RestController
-@RequestMapping("/userfeedback")
+@RequestMapping("/feedbacks")
 public class UserFeedbackController {
     @Autowired
     private UserFeedbackService userFeedbackService;

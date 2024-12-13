@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/studenttool")
+@RequestMapping("/tools")
 public class StudentToolController {
     @Autowired
     private StudentToolService studentToolService;
