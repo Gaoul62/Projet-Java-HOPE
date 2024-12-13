@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "STUDENTTOOL")
 public class StudentToolEntity {
-    /// Fields
+    // Fields
     @Id
     @Column(name = "TOOLID")
     private int toolId;
@@ -31,7 +31,7 @@ public class StudentToolEntity {
     @Column(name = "ACCESSINSTRUCTION", nullable = false, length = 500)
     private String accessInstruction;
 
-    /// Constructors
+    // Constructors
     public StudentToolEntity() {}
     
     public StudentToolEntity(int toolId, String title, String domainName, String simpleDesc, String detailedDesc, String link, String accessInstruction) {
@@ -44,7 +44,7 @@ public class StudentToolEntity {
         this.accessInstruction = accessInstruction;
     }
 
-    /// Getters and Setters
+    // Getters and Setters
     public int getToolId() {
         return toolId;
     }
