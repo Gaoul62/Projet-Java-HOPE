@@ -35,3 +35,20 @@ CREATE TABLE UserApp (
 	role VARCHAR(10) NOT NULL,
 	password VARCHAR(25) NOT NULL
 );
+
+DROP TABLE IF EXISTS ToolProposition;
+
+CREATE TABLE ToolProposition (
+	toolPropositionID INT PRIMARY KEY NOT NULL,
+	validationStatus VARCHAR(25) NOT NULL,
+	title VARCHAR(50),
+    domainName VARCHAR(50),
+    simpleDesc VARCHAR(50),
+    detailedDesc VARCHAR(500),
+    link VARCHAR(250),
+    accessInstruction VARCHAR(500),
+	userID INT NOT NULL,
+	adminID INT NOT NULL,
+	CONSTRAINT FK_ToolProposition_SimpleUser FOREIGN KEY (userID) REFERENCES UserApp(userID) ON DELETE CASCADE
+	CONSTRAINT FK_ToolProposition_AdminUser FOREIGN KEY (adminID) REFERENCES UserApp(userID) ON DELETE CASCADE
+);
