@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "USERAPP")
 public class UserAppEntity {
-    /// Fields
+    // Fields
     @Id
     @Column(name = "USERID")
     private int userId;
