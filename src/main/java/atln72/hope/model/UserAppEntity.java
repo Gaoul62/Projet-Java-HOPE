@@ -13,11 +13,14 @@ public class UserAppEntity {
     @Column(name = "USERID")
     private int userId;
 
-    @Column(name = "USERNAME", nullable = false, length = 50)
-    private String userName;
+    @Column(name= "USERNAME", nullable = false, length = 50)
+    private String username;
 
-    @Column(name = "EMAIL", nullable = false, length = 100)
+    @Column(name = "EMAIL", nullable = false, length = 50)
     private String email;
+
+    @Column(name = "ROLE", nullable = false, length = 50)
+    private String role;
 
     @Column(name = "PASSWORD", nullable = false, length = 100)
     private String password;
@@ -25,10 +28,11 @@ public class UserAppEntity {
     // Constructors
     public UserAppEntity() {}
 
-    public UserAppEntity(int userId, String userName, String email, String password) {
+    public UserAppEntity(int userId, String username, String email, String role, String password) {
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.email = email;
+        this.role = role;
         this.password = password;
     }
 
@@ -41,12 +45,12 @@ public class UserAppEntity {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -55,6 +59,14 @@ public class UserAppEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserRole() {
+        return role;
+    }
+
+    public void setUserRole(String role) {
+        this.role = role;
     }
 
     public String getPassword() {
