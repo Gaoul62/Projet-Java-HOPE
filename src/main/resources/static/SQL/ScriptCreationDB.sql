@@ -16,6 +16,14 @@ CREATE TABLE StudentTool (
     accessInstruction VARCHAR(500) NOT NULL
 );
 
+DROP TABLE IF EXISTS UserApp;
+
+CREATE TABLE UserApp (
+	userID INT PRIMARY KEY NOT NULL,
+	role VARCHAR(10) NOT NULL,
+	password VARCHAR(25) NOT NULL
+);
+
 DROP TABLE IF EXISTS UserFeedback;
 
 CREATE TABLE UserFeedback (
@@ -23,17 +31,8 @@ CREATE TABLE UserFeedback (
     content VARCHAR(250) NOT NULL,
     toolID INT NOT NULL,
 	userID INT NOT NULL,
-    CONSTRAINT FK_UserFeedback_StudentTool FOREIGN KEY (toolID) REFERENCES StudentTool(toolID) ON DELETE CASCADE
+    CONSTRAINT FK_UserFeedback_StudentTool FOREIGN KEY (toolID) REFERENCES StudentTool(toolID) ON DELETE CASCADE,
     CONSTRAINT FK_UserFeedback_UserApp FOREIGN KEY (userID) REFERENCES UserApp(userID) ON DELETE CASCADE
-);
-
-
-DROP TABLE IF EXISTS UserApp;
-
-CREATE TABLE UserApp (
-	userID INT PRIMARY KEY NOT NULL,
-	role VARCHAR(10) NOT NULL,
-	password VARCHAR(25) NOT NULL
 );
 
 DROP TABLE IF EXISTS ToolProposition;
@@ -49,6 +48,6 @@ CREATE TABLE ToolProposition (
     accessInstruction VARCHAR(500),
 	userID INT NOT NULL,
 	adminID INT NOT NULL,
-	CONSTRAINT FK_ToolProposition_SimpleUser FOREIGN KEY (userID) REFERENCES UserApp(userID) ON DELETE CASCADE
+	CONSTRAINT FK_ToolProposition_SimpleUser FOREIGN KEY (userID) REFERENCES UserApp(userID) ON DELETE CASCADE,
 	CONSTRAINT FK_ToolProposition_AdminUser FOREIGN KEY (adminID) REFERENCES UserApp(userID) ON DELETE CASCADE
 );
