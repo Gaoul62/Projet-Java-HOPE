@@ -1,4 +1,4 @@
-package atln72.hope.service;
+package atln72.hope;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
