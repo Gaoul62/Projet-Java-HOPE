@@ -61,6 +61,13 @@ public class UserAppController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format. It must follow xxx@example.com");
             }
 
+            if (entity.getUserRole() == null ||
+                    (!entity.getUserRole().equalsIgnoreCase("ADMIN") &&
+                            !entity.getUserRole().equalsIgnoreCase("TEACHER") &&
+                            !entity.getUserRole().equalsIgnoreCase("STUDENT"))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role. Allowed roles are ADMIN, TEACHER, STUDENT.");
+            }
+
             userService.create(entity);
             
             return ResponseEntity
