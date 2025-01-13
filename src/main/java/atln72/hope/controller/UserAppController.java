@@ -56,6 +56,11 @@ public class UserAppController {
             if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
 
+            String emailPattern = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|yahoo\\.com|example\\.com)$";
+            if (entity.getEmail() == null || !entity.getEmail().matches(emailPattern)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format. It must follow xxx@example.com");
+            }
+
             userService.create(entity);
             
             return ResponseEntity
@@ -74,6 +79,11 @@ public class UserAppController {
         try{
             if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
+
+            String emailPattern = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|yahoo\\.com|example\\.com)$";
+            if (entity.getEmail() == null || !entity.getEmail().matches(emailPattern)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format. It must follow xxx@example.com");
+            }
 
             userService.update(entity);
             
