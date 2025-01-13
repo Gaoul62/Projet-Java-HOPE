@@ -51,9 +51,9 @@ public class UserAppController {
     }
 
     @PostMapping("/{userId}")
-    public ResponseEntity<String> createUserApp(@RequestBody UserAppEntity entity, @PathVariable int toolId) {
+    public ResponseEntity<String> createUserApp(@RequestBody UserAppEntity entity, @PathVariable int userId) {
         try{
-            if (entity.getUserId() != toolId)
+            if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
 
             userService.create(entity);
@@ -70,9 +70,9 @@ public class UserAppController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateUserApp(@RequestBody UserAppEntity entity, @PathVariable int toolId) {
+    public ResponseEntity<String> updateUserApp(@RequestBody UserAppEntity entity, @PathVariable int userId) {
         try{
-            if (entity.getUserId() != toolId)
+            if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
 
             userService.update(entity);
@@ -89,9 +89,9 @@ public class UserAppController {
     }
     
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUserApp(@PathVariable int toolId) {
+    public ResponseEntity<String> deleteUserApp(@PathVariable int userId) {
         try{
-            userService.delete(toolId);
+            userService.delete(userId);
             
             return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
