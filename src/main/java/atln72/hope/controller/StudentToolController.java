@@ -50,6 +50,9 @@ public class StudentToolController {
 
     @GetMapping("/show")
     public String showTools(Model model) {
+        if (UserContext.getCurrentUser() == null) {
+            return "redirect:/";
+        }
         model.addAttribute("user", UserContext.currentUser);
         return "listTools";
     }
