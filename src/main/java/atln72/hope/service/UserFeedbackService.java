@@ -35,6 +35,13 @@ public class UserFeedbackService {
         return userFeedbackRepository.findById(id);
     }
 
+    public List<UserFeedbackEntity> getByTool(int toolId) {
+        logger.log(Level.INFO, "Fetching Feedbacks by Tool ID: {0}", toolId);
+        List <UserFeedbackEntity> feedbacks = this.getAll();
+        feedbacks.removeIf(feedback -> feedback.getStudentTool().getToolId() != toolId);
+        return feedbacks;
+    }
+
     public void create(UserFeedbackEntity feedback) {
         if (parameterMissing(feedback)) {
             logger.log(Level.SEVERE, "Parameters missing while creating Feedback");

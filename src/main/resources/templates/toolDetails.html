@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet"
+	        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	        crossorigin="anonymous">
+        <title>ALTN72 - Projet HOPE - Tool Details</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>ALTN72 - Projet HOPE - Tool Details</h1>
+
+            <form th:action="@{/tools/modifierOutils/{toolId}(toolId=${toolToUpdate.toolId})}" th:object="${toolToUpdate}" method="POST">
+                <input type="hidden" name="_method" value="PUT" />
+
+                Title: <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+                Domain Name: <input type="text" th:field="*{domainName}" class="form-control mb-4 col-4">
+                Simple Description: <input type="text" th:field="*{simpleDesc}" class="form-control mb-4 col-4">
+                Detailed Description: <input type="text" th:field="*{detailedDesc}" class="form-control mb-4 col-4">
+                Link: <input type="text" th:field="*{link}" class="form-control mb-4 col-4">
+                Access Instruction: <input type="text" th:field="*{accessInstruction}" class="form-control mb-4 col-4">
+
+                <button type="submit" th:disabled="${!user.role.equalsIgnoreCase('ADMIN')}" class="btn btn-primary col-2">Confirm</button>
+            </form>
+
+            <hr>
+
+            <h2>Feedbacks</h2>
+            <div th:each="feedback : ${feedbacks}">
+                <p th:text="${feedback.content}"></p>
+            </div>
+
+            <form th:action="@{/tools/addFeedback/{toolId}(toolId=${toolToUpdate.toolId})}" method="POST">
+            <form th:action="@{/tools/{toolId}/addFeedbacks/user/{userId}(toolId=${toolToUpdate.id})(userId=${user.userId})}" method="POST">
+                <div class="form-group">
+                    Feedback: <input type="text" th:field="*{content}" class="form-control mb-4 col-4">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+
+		    <a th:href="@{/tools/show}"> Return to Tool list</a>
+                
+        </div>
+    </body>
+</html>

@@ -77,4 +77,18 @@ public class UserAppService {
     private boolean parameterMissing(UserAppEntity userAppEntity) {
         return userAppEntity.getEmail() == null || userAppEntity.getPassword() == null || userAppEntity.getUserRole() == null || userAppEntity.getUsername() == null;
     }
+
+    public UserAppEntity authenticate(String username, String password) {
+        logger.log(Level.INFO, "Authenticating User: {0}", username);
+        List<UserAppEntity> users = this.getAll();
+        users.removeIf(user -> !user.getUsername().equals(username) || !user.getPassword().equals(password));
+        if (users.isEmpty()) {
+            logger.log(Level.WARNING, "User not found with username: {0}", username);
+            return null;
+        }
+        else {
+            logger.log(Level.INFO, "User authenticated: {0}", username);
+            return users.get(0);
+        }
+    }
 }
