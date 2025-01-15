@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import atln72.hope.model.StudentToolEntity;
 import atln72.hope.service.StudentToolService;
+import atln72.hope.util.UserContext;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +41,12 @@ public class StudentToolController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(studentTools);
+    }
+
+    @GetMapping("/show")
+    public String showTools(Model model) {
+        model.addAttribute("user", UserContext.currentUser);
+        return "tools/show";
     }
 
     @GetMapping("/{toolId}")
@@ -88,6 +98,26 @@ public class StudentToolController {
                 .body(e.getReason());
         }
     }
+
+    @PutMapping("/preparerModifOutil/{toolId}")
+    public String preparerModifOutil(@PathVariable Integer toolId, Model model) {
+        Optional<StudentToolEntity> toolToUpdate = studentToolService.getById(toolId);
+        if (toolToUpdate.isPresent()){
+            model.addAttribute("toolToUpdate", toolToUpdate.get());
+            model.addAttribute("user", UserContext.currentUser);
+            return "toolDetails";
+        } else {
+            return "redirect:/tools/show";
+        }
+    }
+
+    @PutMapping("/modifierOutil/{toolId}")
+    public String modifierOutil(@PathVariable Integer toolId,
+                                @ModelAttribute("toolToUpdate") StudentToolEntity toolEntity) {
+        studentToolService.update(toolEntity);
+        return "redirect:/tools/show";
+    }
+
     
     @DeleteMapping("/{toolId}")
     public ResponseEntity<String> deleteStudentTool(@PathVariable int toolId) {
