@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import atln72.hope.model.StudentToolEntity;
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StudentToolController {
     @Autowired
     private StudentToolService studentToolService;
-
+    @Autowired
     private UserFeedbackService userFeedbackService;
 
     public StudentToolController(StudentToolService studentToolService) {
@@ -50,7 +49,11 @@ public class StudentToolController {
 
     @GetMapping("/show")
     public String showTools(Model model) {
-        model.addAttribute("user", UserContext.currentUser);
+        if (UserContext.getCurrentUser() == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("userRole", UserContext.currentUser.getUserRole());
+        model.addAttribute("tools", studentToolService.getAll());
         return "listTools";
     }
 
@@ -112,7 +115,9 @@ public class StudentToolController {
 
             model.addAttribute("toolToUpdate", toolToUpdate.get());
             model.addAttribute("user", UserContext.currentUser);
+            model.addAttribute("userRole", UserContext.currentUser.getUserRole());
             model.addAttribute("feedbacks", feedbacks);
+            model.addAttribute("feedBackContent", new String());
 
             return "toolDetails";
         } else {

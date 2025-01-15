@@ -23,25 +23,30 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         // Récupère le header Authorization de la requête
         String authHeader = request.getHeader("Authorization");
+        String token = null;
 
         // Vérifie si le header Authorization est présent et commence par "Bearer "
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7); // Récupère uniquement le token sans "Bearer "
-            if (jwtUtil.validateToken(token)) { // Valide le token
-                // Récupère les informations depuis le token
-                String username = jwtUtil.extractUsername(token);
-                String role = jwtUtil.extractRole(token);
+            token = authHeader.substring(7); // Récupère uniquement le token sans "Bearer "
+        } else {
+            // Retrieve token from session if not present in Authorization header
+            token = (String) request.getSession().getAttribute("token");
+        }
 
-                // Crée une authentification pour cet utilisateur
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        username,
-                        null,
-                        jwtUtil.getAuthorities(role) // Récupère les permissions basées sur le rôle
-                );
+        if (token != null && jwtUtil.validateToken(token)) { // Valide le token
+            // Récupère les informations depuis le token
+            String username = jwtUtil.extractUsername(token);
+            String role = jwtUtil.extractRole(token);
 
-                // Définit l'authentification dans le contexte de sécurité
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+            // Crée une authentification pour cet utilisateur
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    username,
+                    null,
+                    jwtUtil.getAuthorities(role) // Récupère les permissions basées sur le rôle
+            );
+
+            // Définit l'authentification dans le contexte de sécurité
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
         // Passe au filtre suivant dans la chaîne
