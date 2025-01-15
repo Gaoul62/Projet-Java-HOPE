@@ -51,10 +51,22 @@ public class UserAppController {
     }
 
     @PostMapping("/{userId}")
-    public ResponseEntity<String> createUserApp(@RequestBody UserAppEntity entity, @PathVariable int toolId) {
+    public ResponseEntity<String> createUserApp(@RequestBody UserAppEntity entity, @PathVariable int userId) {
         try{
-            if (entity.getUserId() != toolId)
+            if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
+
+            String emailPattern = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|yahoo\\.com|example\\.com)$";
+            if (entity.getEmail() == null || !entity.getEmail().matches(emailPattern)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format. It must follow xxx@example.com");
+            }
+
+            if (entity.getUserRole() == null ||
+                    (!entity.getUserRole().equalsIgnoreCase("ADMIN") &&
+                            !entity.getUserRole().equalsIgnoreCase("TEACHER") &&
+                            !entity.getUserRole().equalsIgnoreCase("STUDENT"))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role. Allowed roles are ADMIN, TEACHER, STUDENT.");
+            }
 
             userService.create(entity);
             
@@ -70,10 +82,15 @@ public class UserAppController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateUserApp(@RequestBody UserAppEntity entity, @PathVariable int toolId) {
+    public ResponseEntity<String> updateUserApp(@RequestBody UserAppEntity entity, @PathVariable int userId) {
         try{
-            if (entity.getUserId() != toolId)
+            if (entity.getUserId() != userId)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID mismatch");
+
+            String emailPattern = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|yahoo\\.com|example\\.com)$";
+            if (entity.getEmail() == null || !entity.getEmail().matches(emailPattern)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format. It must follow xxx@example.com");
+            }
 
             userService.update(entity);
             
@@ -89,9 +106,9 @@ public class UserAppController {
     }
     
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUserApp(@PathVariable int toolId) {
+    public ResponseEntity<String> deleteUserApp(@PathVariable int userId) {
         try{
-            userService.delete(toolId);
+            userService.delete(userId);
             
             return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
