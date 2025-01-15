@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import atln72.hope.model.StudentToolEntity;
+import atln72.hope.model.UserFeedbackEntity;
 import atln72.hope.service.StudentToolService;
+import atln72.hope.service.UserFeedbackService;
 import atln72.hope.util.UserContext;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StudentToolController {
     @Autowired
     private StudentToolService studentToolService;
+
+    private UserFeedbackService userFeedbackService;
 
     public StudentToolController(StudentToolService studentToolService) {
         this.studentToolService = studentToolService;
@@ -46,7 +50,7 @@ public class StudentToolController {
     @GetMapping("/show")
     public String showTools(Model model) {
         model.addAttribute("user", UserContext.currentUser);
-        return "tools/show";
+        return "listTools";
     }
 
     @GetMapping("/{toolId}")
@@ -103,8 +107,12 @@ public class StudentToolController {
     public String preparerModifOutil(@PathVariable Integer toolId, Model model) {
         Optional<StudentToolEntity> toolToUpdate = studentToolService.getById(toolId);
         if (toolToUpdate.isPresent()){
+            List<UserFeedbackEntity> feedbacks = userFeedbackService.getByTool(toolId);
+
             model.addAttribute("toolToUpdate", toolToUpdate.get());
             model.addAttribute("user", UserContext.currentUser);
+            model.addAttribute("feedbacks", feedbacks);
+
             return "toolDetails";
         } else {
             return "redirect:/tools/show";
