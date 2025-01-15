@@ -1,6 +1,7 @@
 package atln72.hope.service;
 
 import atln72.hope.repository.UserAppRepository;
+import atln72.hope.util.JwtUtil;
 import atln72.hope.util.UserContext;
 import atln72.hope.model.UserAppEntity;
 

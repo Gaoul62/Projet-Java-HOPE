@@ -1,4 +1,4 @@
-package atln72.hope;
+package atln72.hope.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
