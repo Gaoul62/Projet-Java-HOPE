@@ -29,12 +29,12 @@
 
             <h2>Feedbacks</h2>
             <div th:each="feedback : ${feedbacks}">
-                <p th:if="${feedback.content != null}" th:text="$*{content}"></p>
+                <p th:if="${feedback.content != null}" th:text="${feedback.content}"></p>
             </div>
 
-            <form th:action="@{/tools/addFeedback/{toolId}(toolId=${toolToUpdate.toolId})}" method="POST">
+            <form th:action="@{/tools/addFeedback/{toolId}(toolId=${toolToUpdate.toolId})}" th:object="${feedBackContent}" method="POST">
                 <div class="form-group">
-                    Feedback: <input type="text" th:field="*{feedBackContent}" class="form-control mb-4 col-4">
+                    Feedback: <input type="text" th:field="*{content}" class="form-control mb-4 col-4">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Feedback</button>
             </form>

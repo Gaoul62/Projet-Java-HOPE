@@ -29,7 +29,7 @@ CREATE TABLE UserApp (
 DROP TABLE IF EXISTS UserFeedback;
 
 CREATE TABLE UserFeedback (
-    feedbackID INT PRIMARY KEY NOT NULL,
+    userFeedbackID INT PRIMARY KEY NOT NULL,
     content VARCHAR(250) NOT NULL,
     toolID INT NOT NULL,
 	userID INT NOT NULL,

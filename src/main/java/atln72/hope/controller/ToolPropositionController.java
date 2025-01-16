@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import atln72.hope.model.ToolPropositionEntity;
+import atln72.hope.model.UserFeedbackEntity;
 import atln72.hope.service.ToolPropositionService;
 import atln72.hope.util.UserContext;
 
