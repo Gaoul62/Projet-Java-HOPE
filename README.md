@@ -108,8 +108,10 @@ Le projet est organisé en plusieurs couches pour assurer une séparation claire
 
 Ce projet a été réalisé par notre équipe composée de :  
 
-- **Issa**  
-- **Mahdi**  
-- **Ryan**  
-- **Rayan**  
+- **Issa KANE**  
+- **Mahdi ESSETNI**  
+- **Ryan PENTE PENTE**  
+- **Rayan CAPALDI BENAMOU**
+- **Kévin TRINH**
+  
 
