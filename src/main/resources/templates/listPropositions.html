@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <title>ALTN72 - Projet HOPE - Tool Proposition List</title>
+    </head>
+    <body>
+        <h1>ALTN72 - Projet HOPE - Tool Proposition List</h1>
+
+        <table class="table table-striped table-condensed" style="width: auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">
+                        <a th:href="@{/tools/show}" class="btn btn-primary btn-sm mb-3">Show All Tools</a>
+                    </th>
+                    <th scope="col">
+                        <a th:href="@{/propositions/prepareAdd}" class="btn btn-primary btn-sm mb-3">Create a Tool Proposition</a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        <table class="table table-striped table-condensed" style="width: auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Status</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Domain Name</th>
+                    <th scope="col">Simple Description</th>
+                    <th scope="col">Link</th>
+                    <th scope="col"><bold>Action</bold></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tool :${propositions}">
+                    <td th:text="${tool.validationStatus}"></td>
+                    <td th:text="${tool.title}"></td>
+                    <td th:text="${tool.domainName}"></td>
+                    <td th:text="${tool.simpleDesc}"></td>
+                    <td th:text="${tool.link}"></td>
+                    <td>
+                        <form th:action="@{/propositions/{toolPropositionId}/accept(toolPropositionId=${tool.toolPropositionId})}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <!-- Only Admins can accept a proposition from the list -->
+                            <button class="btn btn-danger" th:disabled="${!userRole.equalsIgnoreCase('ADMIN')}">Accept</button>
+                        </form>
+                        <form th:action="@{/propositions/{toolPropositionId}/refuse(toolPropositionId=${tool.toolPropositionId})}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <!-- Only Admins can refuse a proposition from the list -->
+                            <button class="btn btn-danger" th:disabled="${!userRole.equalsIgnoreCase('ADMIN')}">Refuse</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

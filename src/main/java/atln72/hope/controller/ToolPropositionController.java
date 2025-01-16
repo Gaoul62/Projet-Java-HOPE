@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import atln72.hope.model.ToolPropositionEntity;
 import atln72.hope.service.ToolPropositionService;
+import atln72.hope.util.UserContext;
 
-@RestController
+@Controller
 @RequestMapping("/propositions")
 public class ToolPropositionController {
     @Autowired
@@ -102,5 +104,44 @@ public class ToolPropositionController {
                 .status(e.getStatusCode())
                 .body(e.getReason());
         }
+    }
+
+    @GetMapping("/show")
+    public String showPropositions(Model model) {
+        model.addAttribute("userRole", UserContext.currentUser.getUserRole());
+        model.addAttribute("propositions", toolPropositionService.getAll());
+        return "listPropositions";
+    }
+
+    @GetMapping("/prepareAdd")
+    public String prepareAddProposition(Model model) {
+        model.addAttribute("proposition", new ToolPropositionEntity());
+        return "addToolProposition";
+    }
+
+    @PostMapping("/addPropositionTool")
+    public String addPropositionTool(ToolPropositionEntity proposition) {
+        toolPropositionService.create(proposition);
+        return "redirect:/propositions/show";
+    }
+
+    @GetMapping("{propositionId}/accept")
+    public String acceptProposition(@PathVariable int propositionId) {
+        Optional<ToolPropositionEntity> proposition = toolPropositionService.getById(propositionId);
+        if (proposition.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposition not found");
+        }
+        toolPropositionService.accept(proposition.get());
+        return "redirect:/propositions/show";
+    }
+
+    @GetMapping("{propositionId}/refuse")
+    public String refuseProposition(@PathVariable int propositionId) {
+        Optional<ToolPropositionEntity> proposition = toolPropositionService.getById(propositionId);
+        if (proposition.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposition not found");
+        }
+        toolPropositionService.refuse(proposition.get());
+        return "redirect:/propositions/show";
     }
 }

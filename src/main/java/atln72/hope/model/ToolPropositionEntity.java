@@ -40,7 +40,9 @@ public class ToolPropositionEntity {
     private UserAppEntity admin;
 
     // Constructors
-    public ToolPropositionEntity() {}
+    public ToolPropositionEntity() {
+        this.validationStatus = "PENDING";
+    }
 
     public ToolPropositionEntity(int toolPropositionId, String validationStatus, String title, String domainName, String simpleDesc, String detailedDesc, String link, String accessInstruction, UserAppEntity user, UserAppEntity admin) {
         this.toolPropositionId = toolPropositionId;

@@ -11,6 +11,21 @@
         <table class="table table-striped table-condensed" style="width: auto">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">
+                        <div th:if="${userRole.equalsIgnoreCase('ADMIN')}">
+                            <a th:href="@{/propositions/show}" class="btn btn-primary btn-sm mb-3">See Tool Propositions</a>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <a th:href="@{/propositions/prepareAdd}" class="btn btn-primary btn-sm mb-3">Create a Tool Proposition</a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        <table class="table table-striped table-condensed" style="width: auto">
+            <thead class="thead-dark">
+                <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Title</th>
                     <th scope="col">Domain Name</th>
@@ -40,7 +55,5 @@
                 </tr>
             </tbody>
         </table>
-        
-        <!-- <a th:href="@{/propositions/preparerAjoutTool}" class="btn btn-primary btn-sm mb-3">Create a Tool Proposition</a> -->
     </body>
 </html>
