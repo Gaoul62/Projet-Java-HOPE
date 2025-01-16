@@ -2,6 +2,7 @@ package atln72.hope.service;
 
 import atln72.hope.model.ToolPropositionEntity;
 import atln72.hope.repository.ToolPropositionRepository;
+import atln72.hope.util.UserContext;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class ToolPropositionService {
     }
 
     public void create(ToolPropositionEntity proposition) {
+        proposition.setUser(UserContext.getCurrentUser());
         if (parameterMissing(proposition)) {
             logger.log(Level.SEVERE, "Parameters missing while creating Proposition");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parameters missing");
@@ -65,6 +67,32 @@ public class ToolPropositionService {
         BeanUtils.copyProperties(propositionBody, existingEntity, "toolPropositionId"); // ID must remain the same
         toolPropositionRepository.save(existingEntity);
         logger.log(Level.INFO, "Proposition updated with ID: {0}", existingEntity.getToolPropositionId());
+    }
+
+    public void accept(ToolPropositionEntity proposition) {
+        Optional<ToolPropositionEntity> existingProposition = this.getById(proposition.getToolPropositionId());
+        if (existingProposition.isEmpty()) {
+            logger.log(Level.WARNING, "Proposition not found with ID: {0}", proposition.getToolPropositionId());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposition not found");
+        }
+
+        ToolPropositionEntity existingEntity = existingProposition.get();
+        existingEntity.setValidationStatus("ACCEPTED");
+        toolPropositionRepository.save(existingEntity);
+        logger.log(Level.INFO, "Proposition accepted with ID: {0}", existingEntity.getToolPropositionId());
+    }
+    
+    public void refuse(ToolPropositionEntity proposition) {
+        Optional<ToolPropositionEntity> existingProposition = this.getById(proposition.getToolPropositionId());
+        if (existingProposition.isEmpty()) {
+            logger.log(Level.WARNING, "Proposition not found with ID: {0}", proposition.getToolPropositionId());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposition not found");
+        }
+
+        ToolPropositionEntity existingEntity = existingProposition.get();
+        existingEntity.setValidationStatus("REFUSED");
+        toolPropositionRepository.save(existingEntity);
+        logger.log(Level.INFO, "Proposition refused with ID: {0}", existingEntity.getToolPropositionId());
     }
 
     public void delete(int id) {

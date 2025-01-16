@@ -12,7 +12,7 @@
         <div class="container">
             <h1>ALTN72 - Projet HOPE - Tool Details</h1>
 
-            <form th:action="@{/tools/modifierOutil/{toolId}(toolId=${toolToUpdate.toolId})}" th:object="${toolToUpdate}" method="POST">
+            <form th:action="@{/tools/updateTool/{toolId}(toolId=${toolToUpdate.toolId})}" th:object="${toolToUpdate}" method="POST">
                 <input type="hidden" name="_method" value="PUT" />
 
                 Title: <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
