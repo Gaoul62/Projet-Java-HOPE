@@ -113,11 +113,15 @@ public class StudentToolController {
         if (toolToUpdate.isPresent()){
             List<UserFeedbackEntity> feedbacks = userFeedbackService.getByTool(toolId);
 
+            UserFeedbackEntity feedback = new UserFeedbackEntity();
+            feedback.setStudentTool(toolToUpdate.get());
+            feedback.setUser(UserContext.currentUser);
+            
             model.addAttribute("toolToUpdate", toolToUpdate.get());
             model.addAttribute("user", UserContext.currentUser);
             model.addAttribute("userRole", UserContext.currentUser.getUserRole());
             model.addAttribute("feedbacks", feedbacks);
-            model.addAttribute("feedBackContent", new String());
+            model.addAttribute("feedBackContent", feedback);
 
             return "toolDetails";
         } else {
@@ -151,6 +155,19 @@ public class StudentToolController {
             return ResponseEntity
                 .status(e.getStatusCode())
                 .body(e.getReason());
+        }
+    }
+
+    @PostMapping("/addFeedback/{toolId}")
+    public String postMethodName(@PathVariable int toolId, UserFeedbackEntity feedback) {
+        Optional<StudentToolEntity> studentTool = studentToolService.getById(toolId);
+        if (studentTool.isPresent()) {
+            feedback.setStudentTool(studentTool.get());
+            feedback.setUser(UserContext.currentUser);
+            userFeedbackService.create(feedback);
+            return "redirect:/tools/show";
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tool not found");
         }
     }
 }
