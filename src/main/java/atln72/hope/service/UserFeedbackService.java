@@ -45,6 +45,9 @@ public class UserFeedbackService {
     public void create(UserFeedbackEntity feedback) {
         if (parameterMissing(feedback)) {
             logger.log(Level.SEVERE, "Parameters missing while creating Feedback");
+            logger.log(Level.INFO, "content: {0}", feedback.getContent());
+            logger.log(Level.INFO, "tool: {0}", feedback.getStudentTool());
+            logger.log(Level.INFO, "user: {0}", feedback.getUser());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parameters missing");
         }
         userFeedbackRepository.save(feedback);

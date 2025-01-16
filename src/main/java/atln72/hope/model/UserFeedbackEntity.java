@@ -14,11 +14,11 @@ public class UserFeedbackEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "TOOLID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "TOOLID", nullable = false)
     private StudentToolEntity studentTool;
 
     @ManyToOne
-    @JoinColumn(name = "USERID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "USERID", nullable = false)
     private UserAppEntity user;
 
     // Constructors

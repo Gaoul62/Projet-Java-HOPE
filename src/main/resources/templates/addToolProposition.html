@@ -8,7 +8,7 @@
     <body>
         <h1>ALTN72 - Projet HOPE - Tool Proposition</h1>
 
-        <form th:action="@{/propositions/addPropositionTool/}" method="POST">
+        <form th:action="@{/propositions/addPropositionTool/}" th:object="${proposition}" method="POST">
             <div class="form-group">
                 Title: <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
                 Domain: <input type="text" th:field="*{domainName}" class="form-control mb-4 col-4">
