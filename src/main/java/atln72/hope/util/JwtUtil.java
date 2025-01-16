@@ -1,4 +1,4 @@
-package atln72.hope.service;
+package atln72.hope.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

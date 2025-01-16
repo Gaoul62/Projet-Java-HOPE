@@ -198,3 +198,9 @@ VALUES
  'https://www.wireshark.org/',
  'Télécharger et installer'
 );
+
+INSERT INTO UserApp (userID, username, password, email, role)
+VALUES
+(1, 'admin', 'Azerty0', 'admin@gmail.com', 'ADMIN'),
+(2, 'student', 'Azerty0', 'student@school.com', 'STUDENT'),
+(3, 'teacher', 'Azerty0', 'teacher@school.com', 'TEACHER');
