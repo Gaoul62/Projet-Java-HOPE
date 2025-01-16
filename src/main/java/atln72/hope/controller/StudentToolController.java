@@ -107,7 +107,7 @@ public class StudentToolController {
         }
     }
 
-    @PutMapping("/preparerModifOutil/{toolId}")
+    @PutMapping("/prepareUpdate/{toolId}")
     public String preparerModifOutil(@PathVariable Integer toolId, Model model) {
         Optional<StudentToolEntity> toolToUpdate = studentToolService.getById(toolId);
         if (toolToUpdate.isPresent()){
@@ -125,13 +125,18 @@ public class StudentToolController {
         }
     }
 
-    @PutMapping("/modifierOutil/{toolId}")
+    @PutMapping("/updateTool/{toolId}")
     public String modifierOutil(@PathVariable Integer toolId,
                                 @ModelAttribute("toolToUpdate") StudentToolEntity toolEntity) {
         studentToolService.update(toolEntity);
         return "redirect:/tools/show";
     }
 
+    @DeleteMapping("/deleteTool/{toolId}")
+    public String supprimerOutil(@PathVariable Integer toolId) {
+        studentToolService.delete(toolId);
+        return "redirect:/tools/show";
+    }
     
     @DeleteMapping("/{toolId}")
     public ResponseEntity<String> deleteStudentTool(@PathVariable int toolId) {
